@@ -105,25 +105,29 @@ while answer != "exit"
         p "which property id would you like to read"
         answer = gets.chomp
         summary = PropertyRegister.find_by_id(answer.to_i)
-        for properties in summary
-            p "id:#{properties.id}| property on: '#{properties.address}', has #{properties.bedrooms} bedrooms, built in #{properties.year}, worth £#{properties.value}"
-            p "would you like to edit entry? yes/no"
-            if gets.chomp == "yes"
-                p "enter address"
-                p_address = gets.chomp
-                p "enter number of bedrooms"
-                p_bedrooms = gets.chomp
-                p "enter year property was built in"
-                p_year = gets.chomp
-                p "enter property value"
-                p_value = gets.chomp
-                propertyxx = {'address'=> p_address,
-                              'bedrooms' => p_bedrooms,
-                              'year'=> p_year,
-                              'value'=> p_value,
-                              'id'=> answer}
-                PropertyRegister.update_by_id(propertyxx)
+        if summary.length >0
+            for properties in summary
+                p "id:#{properties.id}| property on: '#{properties.address}', has #{properties.bedrooms} bedrooms, built in #{properties.year}, worth £#{properties.value}"
+                p "would you like to edit entry? yes/no"
+                if gets.chomp == "yes"
+                    p "enter address"
+                    p_address = gets.chomp
+                    p "enter number of bedrooms"
+                    p_bedrooms = gets.chomp
+                    p "enter year property was built in"
+                    p_year = gets.chomp
+                    p "enter property value"
+                    p_value = gets.chomp
+                    propertyxx = {'address'=> p_address,
+                                  'bedrooms' => p_bedrooms,
+                                  'year'=> p_year,
+                                  'value'=> p_value,
+                                  'id'=> answer}
+                    PropertyRegister.update_by_id(propertyxx)
+                end
             end
+        else
+            p "no results found"
         end
         answer = ""
     end
@@ -134,9 +138,14 @@ while answer != "exit"
         p "enter address of property"
         answer = gets.chomp
         summary = PropertyRegister.find_by_address(answer)
-        for properties in summary
-            p "id:#{properties.id}| address: #{properties.address}| bedrooms: #{properties.bedrooms}| year built: #{properties.year}| value: #{properties.value}"
+        if summary.length >0
+            for properties in summary
+                p "id:#{properties.id}| address: #{properties.address}| bedrooms: #{properties.bedrooms}| year built: #{properties.year}| value: #{properties.value}"
+            end
+        else
+            p "nil"
         end
+
     end
     #delete by id
     p "delete an item by id? yes/no?"
